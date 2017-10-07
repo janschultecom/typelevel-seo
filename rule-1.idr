@@ -1,22 +1,18 @@
+module Main
+
 import Data.List
+import Data.HVect
+import Helper 
 
 allowedChars : List Char
-allowedChars = ['a'..'z'] ++ ['0'..'9'] ++ ['-','%']
-
-{-data Elem : t -> List t -> Type where
-  Here : Elem x (x :: xs)
-  There : Elem x xs -> Elem x (y :: xs) -}
+allowedChars = ['a'..'z'] ++ ['0'..'9'] ++ ['-']
 
 
-cIsAllowed : Elem '%' Main.allowedChars
-cIsAllowed = ?cIsAllowed_rhs
 
+-- validLiteral = Check ( Literal "lambda-world" ) -- must compile
 
-data ValidLiteral : List Char -> Type where
-  One : { auto prf: Elem c Main.allowedChars } -> ValidLiteral [c]
-  Multi : { auto prf: Elem c Main.allowedChars } -> ValidLiteral cs -> ValidLiteral ( c :: cs)
+-- emptyLiteral : Test LiteralRoute
+-- emptyLiteral = Check ( Literal "") -- must not compile
 
-emptyNotAllowed : ValidLiteral ['c','a','$']
-emptyNotAllowed = Multi (Multi One) 
-
-
+-- invalidLiteral : Test LiteralRoute
+-- invalidLiteral = Check ( Literal "aab-4d-{}" ) -- must not compile
