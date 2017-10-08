@@ -4,7 +4,8 @@ import Data.String
 
 -- split lines
 readLines : String -> List String
-readLines content = Strings.split (\c => List.elem c ['\n', '\r']) content
+readLines content = let words = Strings.split (\c => List.elem c ['\n', '\r']) content in
+                        filter (/= "") words
 
 export
 readWords : String -> IO (Provider (List String))
