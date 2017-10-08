@@ -9,7 +9,7 @@ import Helper
 %provide (seoWords : List String) with readWords "seo-words.txt"
 
 numberInfixes : String -> Nat
-numberInfixes word = length $ filter (\w => isInfixOf w word) $ filter (/= "") seoWords
+numberInfixes word = length $ filter (\w => isInfixOf w word) seoWords
 
 allowedChars : List Char
 allowedChars = ['a'..'z'] ++ ['0'..'9'] ++ ['-']
