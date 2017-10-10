@@ -20,11 +20,10 @@ data LiteralRoute : String -> Type where
 
 -----------------------------------
                     
-data Base = MkBase    
-
 maxLevel : Nat
 maxLevel = 3 
 
+data Base = MkBase    
 
 -- shortRoute : Test Route
 -- shortRoute = Check (Root / Literal "one" / Literal "two") -- must compile
