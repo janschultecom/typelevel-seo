@@ -22,7 +22,7 @@ data LiteralRoute : String -> Type where
   Literal : (lit:String) ->
             -- RULE 1  
             { auto prf : ValidLiteral (unpack lit) } -> 
-            -- RULE 3
+            -- RULE 4
             { auto prf : GT (numberInfixes lit) Z } -> 
             LiteralRoute lit
 
@@ -68,7 +68,7 @@ data RoutesConfiguration : List (List Type) -> Type where
   Routes : (root: RouteHandler [Base]) -> RoutesConfiguration [[Base]]
   (&) : RoutesConfiguration routes -> 
         RouteHandler (child :: parent)  ->
-        -- RULE 4
+        -- RULE 3
         { auto prf : Elem parent routes } ->  
         RoutesConfiguration ( (child :: parent) :: routes) 
 

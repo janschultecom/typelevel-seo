@@ -9,7 +9,6 @@ import Helper
 %provide (seoWords : List String) with readWords "seo-words.txt"
 
 numberInfixes : String -> Nat
-numberInfixes word = length $ filter (\w => isInfixOf w word) seoWords
 
 allowedChars : List Char
 allowedChars = ['a'..'z'] ++ ['0'..'9'] ++ ['-']
@@ -22,8 +21,6 @@ data LiteralRoute : String -> Type where
   Literal : (lit:String) ->
             -- RULE 1  
             { auto prf : ValidLiteral (unpack lit) } -> 
-            -- RULE 3
-            { auto prf : GT (numberInfixes lit) Z } -> 
             LiteralRoute lit
 
 -----------------------------------
@@ -68,18 +65,18 @@ data RoutesConfiguration : List (List Type) -> Type where
   Routes : (root: RouteHandler [Base]) -> RoutesConfiguration [[Base]]
   (&) : RoutesConfiguration routes -> 
         RouteHandler (child :: parent)  ->
-        -- RULE 4
+        -- RULE 3
         { auto prf : Elem parent routes } ->  
         RoutesConfiguration ( (child :: parent) :: routes) 
 
 validConfiguration : Test RoutesConfiguration
---validConfiguration = Check $ Routes 
---            ( GET  Root handler ) &      
---            ( GET (Root / Literal "category") handler) & 
---            ( GET (Root / Literal "category" / Literal "sports-bar") handler ) -- must compile
+validConfiguration = Check $ Routes 
+           ( GET  Root handler ) &      
+            ( GET (Root / Literal "category") handler) & 
+            ( GET (Root / Literal "category" / Literal "sports-bar") handler ) -- must compile
           
 invalidConfiguration : Test RoutesConfiguration
 --invalidConfiguration = Check $ Routes 
 --            ( GET  Root handler ) &      
---            ( GET (Root / Literal "category" / Literal "sports-bar") handler ) -- must not compile
+--            ( GET (Root / Literal "category" / Literal "sports-bar") handler ) -- does not compile
 

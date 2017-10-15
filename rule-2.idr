@@ -2,7 +2,6 @@ module Main
 
 import Data.List
 import Data.HVect
-import WordsProvider
 import Helper
 
 allowedChars : List Char

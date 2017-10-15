@@ -2,14 +2,7 @@ module Main
 
 import Data.List
 import Data.HVect
-import WordsProvider
 import Helper 
-
-%language TypeProviders
-%provide (seoWords : List String) with readWords "seo-words.txt"
-
-numberInfixes : String -> Nat
-numberInfixes word = length $ filter (\w => isInfixOf w word) seoWords
 
 allowedChars : List Char
 allowedChars = ['a'..'z'] ++ ['0'..'9'] ++ ['-']
@@ -23,13 +16,6 @@ data LiteralRoute : String -> Type where
             -- RULE 1  
             { auto prf : ValidLiteral (unpack lit) } -> 
             LiteralRoute lit
-
--- seoRoute : Test LiteralRoute
--- seoRoute = Check (Literal "has-category-inside") -- must compile
-
--- noSeoRoute : Test LiteralRoute
--- noSeoRoute = Check (Literal "no-seo-relevant-word") -- must not compile
-
 
 -----------------------------------
                     
@@ -46,3 +32,37 @@ data Route :  List Type -> Type where
         -- RULE 2
         { auto prf : LTE (length (child :: parent) ) Main.maxLevel } ->  
         Route (child :: parent)
+
+--------------------------------------
+
+data HttpMethod = HttpGet | HttpPost
+
+HttpHandler : Type 
+HttpHandler = String -> String 
+
+RouteHandler : (route:List Type) -> Type
+RouteHandler r = (HttpMethod, Route r, HttpHandler)
+
+GET : Route r -> HttpHandler -> RouteHandler r 
+GET route handler = (HttpGet, route, handler) 
+
+handler : HttpHandler
+handler = id
+
+sampleRoute : Test RouteHandler 
+sampleRoute = Check $ GET (Root / Literal "category") handler
+
+---------------------------------------
+
+
+validConfiguration : Test RoutesConfiguration
+--validConfiguration = Check $ Routes 
+--            ( GET  Root handler ) &      
+--            ( GET (Root / Literal "category") handler) & 
+--            ( GET (Root / Literal "category" / Literal "sports-bar") handler ) -- must compile
+          
+invalidConfiguration : Test RoutesConfiguration
+--invalidConfiguration = Check $ Routes 
+--            ( GET  Root handler ) &      
+--            ( GET (Root / Literal "category" / Literal "sports-bar") handler ) -- must not compile
+
