@@ -25,8 +25,8 @@ maxLevel = 3
 data Base = MkBase    
 
 -- shortRoute : Test Route
--- shortRoute = Check (Root / Literal "one" / Literal "two") -- must compile
+-- shortRoute = Check (Root / Literal "two" / Literal "three") -- must compile
 
 -- longRoute : Test Route
--- longRoute = Check (Root / Literal "one" / Literal "two" / Literal "three") -- does not compile
+-- longRoute = Check (Root / Literal "two" / Literal "three" / Literal "four") -- does not compile
 
