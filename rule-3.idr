@@ -50,7 +50,7 @@ handler : HttpHandler
 handler = id
 
 sampleRoute : Test RouteHandler 
-sampleRoute = Check $ GET (Root / Literal "category") handler
+sampleRoute = Check $ GET (Root / Literal "sports") handler
 
 ---------------------------------------
 
@@ -58,11 +58,11 @@ sampleRoute = Check $ GET (Root / Literal "category") handler
 validConfiguration : Test RoutesConfiguration
 --validConfiguration = Check $ Routes 
 --            ( GET  Root handler ) &      
---            ( GET (Root / Literal "category") handler) & 
---            ( GET (Root / Literal "category" / Literal "sports-bar") handler ) -- must compile
+--            ( GET (Root / Literal "sports") handler) & 
+--            ( GET (Root / Literal "sports" / Literal "football") handler ) -- must compile
           
 invalidConfiguration : Test RoutesConfiguration
 --invalidConfiguration = Check $ Routes 
 --            ( GET  Root handler ) &      
---            ( GET (Root / Literal "category" / Literal "sports-bar") handler ) -- must not compile
+--            ( GET (Root / Literal "sports" / Literal "football") handler ) -- must not compile
 
