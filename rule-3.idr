@@ -40,28 +40,27 @@ data HttpMethod = HttpGet | HttpPost
 HttpHandler : Type 
 HttpHandler = String -> String 
 
+handler : HttpHandler
+handler = id
+
 RouteHandler : (route:List Type) -> Type
 RouteHandler r = (HttpMethod, Route r, HttpHandler)
 
 GET : Route r -> HttpHandler -> RouteHandler r 
 GET route handler = (HttpGet, route, handler) 
 
-handler : HttpHandler
-handler = id
-
 sampleRoute : Test RouteHandler 
 sampleRoute = Check $ GET (Root / Literal "sports") handler
 
 ---------------------------------------
 
-
-validConfiguration : Test RoutesConfiguration
+--validConfiguration : Test RoutesConfiguration
 --validConfiguration = Check $ Routes 
 --            ( GET  Root handler ) &      
 --            ( GET (Root / Literal "sports") handler) & 
 --            ( GET (Root / Literal "sports" / Literal "football") handler ) -- must compile
           
-invalidConfiguration : Test RoutesConfiguration
+--invalidConfiguration : Test RoutesConfiguration
 --invalidConfiguration = Check $ Routes 
 --            ( GET  Root handler ) &      
 --            ( GET (Root / Literal "sports" / Literal "football") handler ) -- must not compile
